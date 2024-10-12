@@ -1,3 +1,19 @@
 baseURL = 'http://example.org/'
+theme="PaperMod"
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = "Nikola Milovic's Blog"
+
+[params]
+ShowCodeCopyButtons = true
+
+  [params.homeInfoParams]
+  Title = "Hi there wave"
+  Content = "Can be Info, links, about..."
+
+  [[params.socialIcons]]
+  name = "<platform>"
+  url = "<link>"
+
+  [[params.socialIcons]]
+  name = "<platform 2>"
+  url = "<link2>"
