@@ -6,6 +6,16 @@ params:
 title: How Linux works
 ---
 
+```go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("hello world")
+}
+```
+
 #book #linux 
 
 Linux is divided in

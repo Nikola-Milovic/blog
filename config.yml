@@ -1,0 +1,100 @@
+baseURL: blog.nikolamilovic.com
+languageCode: en-us
+title: Nikola Milovic Blog
+theme: PaperMod
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: true
+
+pagination:
+  pagerSize: 5
+minify:
+  disableXML: true
+  minifyOutput: true
+
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON # necessary for search
+
+params:
+  homeInfoParams:
+    Title: Hi there wave
+    Content: Can be Info, links, about...
+
+  socialIcons: 
+    - name: "twitter"
+      url: "<link>"
+    - name: "linkedin"
+      url: "<link2>"
+    - name: "github"
+      url: "<link2>"
+
+  keywords:
+    - Blog
+  author: Nikola Milovic
+  defaultTheme: auto
+  DateFormat: Jan 2, 2006
+
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+  ShowWordCount: false
+  ShowRssButtonInSectionTermList: true
+
+  UseHugoToc: true
+  # disableSpecial1stPost: true
+  # disableScrollToTop: false
+  comments: false
+  hidemeta: false
+  hideSummary: false
+
+  ShowToc: true
+  TocOpen: false
+
+  assets:
+    disableHLJS: true
+    disableFingerprinting: true
+
+  cover:
+    hiddenInList: true
+
+  editPost:
+    URL: https://github.com/Nikola-Milovic/blog/content
+    Text: Suggest Changes
+    appendFilePath: true
+
+  fuseOpts:
+    isCaseSensitive: false
+    shouldSort: true
+    location: 0
+    distance: 1000
+    threshold: 0.4
+    minMatchCharLength: 0
+    keys:
+      - title
+      - permalink
+      - summary
+      - content
+menu:
+  main:
+    - identifier: search
+      name: ~ search
+      url: /search
+      weight: 1
+
+    - identifier: posts
+      name: ~ posts
+      url: /posts/
+      weight: 10
+
+
+pygmentsUseClasses: true
+markup:
+  highlight:
+    style: nord
