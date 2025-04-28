@@ -1,4 +1,4 @@
-baseURL: nikolamilovic.com
+baseURL: blog.nikolamilovic.com
 languageCode: en-us
 title: Nikola Milovic
 theme: PaperMod
@@ -26,6 +26,7 @@ params:
     enable: true
     gitstar: false
     domain: blog.nikolamilovic.com
+    selfhosted_domain: https://round-snowflake-cf3d.nikolamilovic2001.workers.dev/
   homeInfoParams:
     Title: How did you end up here?
     Content: |
