@@ -1,6 +1,6 @@
-baseURL: blog.nikolamilovic.com
+baseURL: nikolamilovic.com
 languageCode: en-us
-title: Nikola Milovic Blog
+title: Nikola Milovic
 theme: PaperMod
 
 enableRobotsTXT: true
@@ -18,20 +18,31 @@ outputs:
   home:
     - HTML
     - RSS
-    - JSON # necessary for search
 
 params:
-  homeInfoParams:
-    Title: Hi there wave
-    Content: Can be Info, links, about...
+  social: true #https://github.com/adityatelange/hugo-PaperMod/issues/1573
 
-  socialIcons: 
-    - name: "twitter"
-      url: "<link>"
+  plausible:
+    enable: true
+    gitstar: false
+    domain: blog.nikolamilovic.com
+  homeInfoParams:
+    Title: How did you end up here?
+    Content: |
+      My name is Nikola, and I am a Software Developer, currently taking a break from corporate gigs, working on 
+      [Seolitic](https://seolitic.com/)(automatic seo for ecommerce), [Kipap](https://kipap.ai/)(todo-ish app)
+
+      Follow me on my socials i swear I'll post something someday
+
+  socialIcons:
+    - name: rss
+      url: "https://nikolamilovic.com/index.xml"
+    - name: "x"
+      url: "https://x.com/nikolamilovic5"
     - name: "linkedin"
-      url: "<link2>"
+      url: "https://www.linkedin.com/in/nikola-milovic/"
     - name: "github"
-      url: "<link2>"
+      url: "https://github.com/Nikola-Milovic"
 
   keywords:
     - Blog
@@ -39,13 +50,14 @@ params:
   defaultTheme: auto
   DateFormat: Jan 2, 2006
 
-  ShowReadingTime: true
-  ShowShareButtons: true
+  # ShowReadingTime: true
+  ShowShareButtons: false
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
-  ShowWordCount: false
+  # ShowWordCount: false
   ShowRssButtonInSectionTermList: true
+  ShowFullTextInRSS: true
 
   UseHugoToc: true
   # disableSpecial1stPost: true
@@ -83,18 +95,20 @@ params:
       - content
 menu:
   main:
-    - identifier: search
-      name: ~ search
-      url: /search
-      weight: 1
-
     - identifier: posts
       name: ~ posts
       url: /posts/
       weight: 10
 
-
 pygmentsUseClasses: true
 markup:
   highlight:
     style: nord
+  goldmark:
+    parser:
+      attribute:
+        block: true # allow parsing of blocks
+
+module:
+  imports:
+    - path: "github.com/divinerites/plausible-hugo"
