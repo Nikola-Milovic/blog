@@ -20,7 +20,20 @@ outputs:
     - RSS
 
 params:
-  social: true #https://github.com/adityatelange/hugo-PaperMod/issues/1573
+  social: true #https://github.com/adityatelange/hugo-PaperMod/issues/1573 
+
+  giscus:
+    repo: "Nikola-Milovic/blog"
+    repoID: "R_kgDOM_nJLQ"
+    category: "Announcements"
+    categoryID: "DIC_kwDOM_nJLc4CjUq1"
+    mapping: "pathname"
+    inputPosition: "top"
+    theme: "preferred_color_scheme"
+    lang: "en"
+    loading: "lazy"
+    crossorigin: "anonymous"
+    async: ""
 
   plausible:
     enable: true
@@ -63,7 +76,7 @@ params:
   UseHugoToc: true
   # disableSpecial1stPost: true
   # disableScrollToTop: false
-  comments: false
+  comments: true
   hidemeta: false
   hideSummary: false
 
