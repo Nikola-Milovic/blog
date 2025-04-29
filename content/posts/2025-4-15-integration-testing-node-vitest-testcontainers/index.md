@@ -1,12 +1,17 @@
 ---
 date: 2025-04-15T17:43:38+02:00
 draft: false
+tags: ["nodejs", "postgres", "testing","vitest","integration testing"]
 params:
   author: Nikola Milovic
-title: Integration Testing Node.js Like You Mean It (with Vitest & Testcontainers)
+title: Integration Testing Node.js Postgres interaction Like You Mean It (with Vitest & Testcontainers)
+cover: 
+  image: cover.png
+  alt: integration testing with postgres and nodejs
+  hidden: true
 ---
 
-# Integration Testing Node.js Like You Mean It (with Vitest & Testcontainers)
+# Integration Testing Node.js Postgres interaction Like You Mean It (with Vitest & Testcontainers)
 
 Look, unit tests are great for checking isolated logic. But eventually, you need to know if your code _actually_ works with a real database, message queue, or whatever external service you depend on. Mocking everything is fragile and often hides bugs that only show up when things get real. Shared dev databases? A recipe for flaky tests and stepping on colleagues' toes.
 
