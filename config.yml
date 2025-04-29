@@ -20,7 +20,7 @@ outputs:
     - RSS
 
 params:
-  social: true #https://github.com/adityatelange/hugo-PaperMod/issues/1573 
+  social: true #https://github.com/adityatelange/hugo-PaperMod/issues/1573
 
   giscus:
     repo: "Nikola-Milovic/blog"
