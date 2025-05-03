@@ -42,7 +42,7 @@ Because it's _not the same_. You might use database-specific features, syntax qu
 
 We'll set up a dead-simple Express app with basic CRUD operations for "items" stored in a Postgres database. Then, we'll write integration tests for it using Vitest and Testcontainers.
 
-**(You can find the complete code example here: [LINK TO YOUR REPO] - Clone it and switch to the `main` branch to follow along, or `no-tests` if you want to write them yourself.)**
+**(You can find the [complete project code over at github](https://github.com/Nikola-Milovic/blog-projects/tree/master/2025-4-15-integration-testing-node-vitest-testcontainers))**
 
 **1. Project Setup**
 
