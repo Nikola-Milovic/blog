@@ -44,7 +44,7 @@ params:
     Title: How did you end up here?
     Content: |
       My name is Nikola, and I am a Software Developer, currently taking a break from corporate gigs, working on 
-      [Seolitic](https://seolitic.com/)(automatic seo for ecommerce), [Kipap](https://kipap.ai/)(todo-ish app)
+      [Seolitic](https://seolitic.com/)(automatic seo for ecommerce), [Kipap](https://kipap.ai/)(todo-ish app), [Adolitic](https://adolitic.com)(automated facebook ad campaign management)
 
       Follow me on my socials i swear I'll post something someday
 
@@ -58,9 +58,6 @@ params:
     - name: "github"
       url: "https://github.com/Nikola-Milovic"
 
-  keywords:
-    - Blog
-  author: Nikola Milovic
   defaultTheme: auto
   DateFormat: Jan 2, 2006
 

@@ -2,8 +2,6 @@
 date: 2025-04-15T17:43:38+02:00
 draft: false
 tags: ["nodejs", "postgres", "testing","vitest","integration testing"]
-params:
-  author: Nikola Milovic
 title: Integration Testing Node.js Postgres interaction Like You Mean It (with Vitest & Testcontainers)
 cover: 
   image: cover.png
@@ -42,7 +40,7 @@ Because it's _not the same_. You might use database-specific features, syntax qu
 
 We'll set up a dead-simple Express app with basic CRUD operations for "items" stored in a Postgres database. Then, we'll write integration tests for it using Vitest and Testcontainers.
 
-**(You can find the [complete project code over at github](https://github.com/Nikola-Milovic/blog-projects/tree/master/2025-4-15-integration-testing-node-vitest-testcontainers))**
+**(You can find the [complete project code over at github](https://github.com/Nikola-Milovic/blog-projects/tree/master/integration-testing-node-vitest-testcontainers))**
 
 **1. Project Setup**
 
@@ -61,39 +59,44 @@ npx tsc --init --rootDir src --outDir dist --esModuleInterop --resolveJsonModule
 Create a simple `src/server.ts`:
 
 ```typescript
-import express, { type Response } from 'express'; // Import Response type
-import { getDB } from './db';
+import express, { type Response, type Request } from "express";
+import { getDB } from "./db";
 
 const app = express();
 app.use(express.json());
 
-app.post('/items', async (req, res): Promise<Response> => { // Use Promise<Response>
+app.post("/items", async (req: Request, res: Response) => {
  const { name } = req.body;
  if (!name) {
-  return res.status(400).send({ error: 'Name is required' });
+  res.status(400).send({ error: "Name is required" });
+  return;
  }
  try {
   const db = getDB();
-  const result = await db.query('INSERT INTO items(name) VALUES($1) RETURNING *', [name]);
-  return res.status(201).send(result.rows[0]); // Added return
+  const result = await db.query(
+   "INSERT INTO items(name) VALUES($1) RETURNING *",
+   [name],
+  );
+  res.status(201).send(result.rows[0]); 
  } catch (err) {
   console.error(err);
-  return res.status(500).send({ error: 'Failed to create item' }); // Added return
+  res.status(500).send({ error: "Failed to create item" }); 
  }
 });
 
-app.get('/items/:id', async (req, res): Promise<Response> => { // Use Promise<Response>
+app.get("/items/:id", async (req: Request, res: Response) => {
  const { id } = req.params;
  try {
   const db = getDB();
-  const result = await db.query('SELECT * FROM items WHERE id = $1', [id]);
+  const result = await db.query("SELECT * FROM items WHERE id = $1", [id]);
   if (result.rows.length === 0) {
-   return res.status(404).send({ error: 'Item not found' });
+   res.status(404).send({ error: "Item not found" });
+   return;
   }
-  return res.send(result.rows[0]); // Added return
+  res.send(result.rows[0]); 
  } catch (err) {
   console.error(err);
-  return res.status(500).send({ error: 'Failed to retrieve item' }); // Added return
+  res.status(500).send({ error: "Failed to retrieve item" }); 
  }
 });
 
@@ -107,7 +110,6 @@ if (require.main === module) {
  });
 }
 
-// Export app for testing
 export default app;
 ```
 
@@ -501,3 +503,14 @@ If resource usage is a major concern, you _could_ explore:
 Setting up integration tests with Testcontainers is something I've been incorporating into every project I am starting nowadays with Node.js, it gives me great velocity while developing and ease of mind when refactoring. The payoff in confidence and catching real-world bugs is huge. By managing container lifecycles programmatically and ensuring clean state via snapshots or unique databases per test, you can build a robust, reliable integration test suite for your Node.js applications. I'd even argue that this is actually simpler than mocking since there isn't a good way (that I am aware of) to properly mock these database interactions without using an ORM that supports it or mocking the data layer representation you're using (`store`/`repository`/`dao`'s)
 
 Stop guessing if your database interaction code works – test it properly.
+
+---
+
+**Give these amazing projects a star!** This workflow wouldn't be possible without them:
+
+- [vitest](https://github.com/vitest-dev/vitest) ⭐
+- [testcontainers-node](https://github.com/testcontainers/testcontainers-node) ⭐
+
+**Bonus Cool Project:** _(Not sponsored, just want to make it a habit to share a cool project with every post)_
+
+- [WebTUI](https://github.com/webtui/webtui): An open-source, modular CSS Library that brings the beauty of Terminal UIs to the browser
