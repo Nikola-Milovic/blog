@@ -304,7 +304,7 @@ Time (mean ± σ):      4.773 s ±  0.412 s    [User: 2.730 s, System: 0.991 s]
 Range (min … max):    4.333 s …  5.772 s    10 runs
 ```
 
-**PGLite (fresh instance per test, no snapshotting yet):**
+**PGLite (fresh instance per test, no optimizations yet):**
 
 ```
 > vitest run
@@ -328,11 +328,11 @@ Range (min … max):    2.748 s …  2.946 s    10 runs
 
 **The Verdict (Round 1):** PGLite is already significantly faster overall (~2.8s vs ~4.8s) mainly because we skip the Docker container boot time entirely! Each test takes a bit longer individually because it's initializing PGLite *and* applying the schema every time. Can we do better?
 
-### Even Faster? Enter reusable database/ snapshotting
+### Even Faster? Enter reusable database
 
 Just like with Testcontainers, we can optimize further by setting up the database *once*, applying the schema, taking a "snapshot," and then quickly restoring that clean state before each test. PGLite doesn't have a direct snapshot command, but we can achieve a similar effect with some filesystem manipulation.
 
-> I am still experimenting with this approach, it does net us some speed benefits but I cannot guarantee its complete correctness and safety, it's easy to setup so you can try it out but be vary.
+> I am still experimenting with this approach, it does net us some speed benefits but I cannot guarantee its complete correctness and safety, it's easy to setup so you can try it out but be wary. If you have any ideas how to improve this implementation please leave a comment or hit me up somewhere
 {.warning}
 
 **1. Update the DB Helper:**
@@ -361,8 +361,8 @@ We'll now use `beforeAll` to set up *one* PGLite instance for the entire test fi
 ```typescript
 import {
  // ... other imports
- beforeAll, // Use beforeAll for one-time setup
- afterAll,  // Use afterAll for one-time cleanup
+ beforeAll, 
+ afterAll, 
  // ...
 } from "vitest";
 // ... other imports
