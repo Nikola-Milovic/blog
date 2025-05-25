@@ -13,11 +13,11 @@ cover:
 
 Hey everyone! Let's talk about testing in Node.js, specifically when databases get involved.
 
-Unit tests? Absolutely essential for checking your functions in isolation. But let's be real – at some point, you *need* to know if your code actually plays nice with a real database, message queue, or whatever external service it relies on. Mocking everything can feel like building a house of cards – fragile, prone to hiding nasty bugs that only surface when things interact for real. And shared dev databases? Don't even get me started. They're a one-way ticket to flaky tests and accidentally messing up your colleagues' work. Nightmare fuel.
+Unit tests? Absolutely essential for checking your functions in isolation. But let's be real, at some point, you *need* to know if your code actually plays nice with a real database, message queue, or whatever external service it relies on. Mocking everything can feel like building a house of cards, fragile, prone to hiding nasty bugs that only surface when things interact for real. And shared dev databases? Don't even get me started. They're a one-way ticket to flaky tests and accidentally messing up your colleagues' work. Nightmare fuel.
 
 Coming from Go, I got spoiled by integration tests that gave me rock-solid confidence. I craved that same feeling in my TypeScript projects. In a [previous post](https://nikolamilovic.com/posts/integration-testing-node-postgres-vitest-testcontainers/), we explored using `testcontainers` to spin up pristine, isolated Postgres instances for our tests. It's a fantastic approach, giving you high fidelity by testing against the real deal (well, a Dockerized version). We even discussed ways to optimize the startup time.
 
-But here's the thing: if you're like me and embrace a Test-Driven Development (TDD) workflow, *every millisecond counts*.
+But here's the thing: if you're like me and embrace a Test Driven Development (TDD) workflow, *every millisecond counts*.
 
 (As always, the final project code can be found over at the [github repo](https://github.com/Nikola-Milovic/blog-projects/tree/master/fun-and-sane-tdd-with-node-pglite))
 
@@ -28,19 +28,19 @@ But here's the thing: if you're like me and embrace a Test-Driven Development (T
 
 What *is* TDD, really? You'll find plenty of formal definitions, often involving strict red-green-refactor cycles and meticulous unit testing. Kent Beck, a key figure in TDD, described it as a way to "think through your design before you write your functional code."
 
-Honestly, many resources make TDD sound overly rigid, almost tedious. That's fine if your project demands extreme meticulousness, but for many of us, especially working on CRUD-heavy apps or exploring new features, a more pragmatic approach works wonders.
+Honestly, many resources make TDD sound overly rigid, almost tedious. That's fine if your project demands extreme meticulousness, but for many of us, especially working on CRUD heavy apps or exploring new features, a more pragmatic approach works wonders.
 
 My take on TDD? It's about **developing your code *alongside* your tests**. Tests aren't just safety nets for the future; they're your *active guide* during development. They help you shape the functionality, catch edge cases early, and save you the endless cycle of starting your app, hitting it with `curl`, cleaning the database, and repeating. I tend to lean heavily on *integration tests* – testing slices of functionality, often involving the database, because if the data ends up correct in my source of truth (the DB), I can be fairly confident that it's working as intended.
 
-This kind of workflow boosts my velocity and confidence immensely. But... it hinges on a **fast feedback loop**. Waiting even a few seconds for tests to spin up can break your concentration and kill momentum. That "Time To Result" (TTR – yeah, I made that up) needs to be *fast*.
+This kind of workflow boosts my velocity and confidence immensely. But... it hinges on a **fast feedback loop**. Waiting even a few seconds for tests to spin up can break your concentration and kill momentum. That "Time To Result" (TTR, yeah, I made that up) needs to be *fast*.
 
 Last post I showcased `testcontainers` approach, which is great and gets you close to a tight feedback loop (~2-4s initial setup, then subsequent test cases are much faster thanks to snapshots), that initial container spin-up time can still feel sluggish, especially if you want to run many test suites in parallel. What if we could make it *even faster*? (The answer is, *maybe*, this is more of an experiment rather than a recommendation on my part)
 
 ### Enter PGLite: Postgres in Your Pocket (Almost!)
 
-Recently, I stumbled upon something that felt like a game-changer for this workflow: [**PGLite**](https://github.com/electric-sql/pglite).
+Recently, I stumbled upon something that felt like a game changer for this workflow: [**PGLite**](https://github.com/electric-sql/pglite).
 
-Imagine Postgres, but compiled to [WASM](https://webassembly.org/) and packaged as a simple TypeScript/JavaScript library. That's PGLite. You can run a genuine Postgres engine right inside your Node.js (or Bun, or even browser!) process *without installing Postgres or any other dependencies*.
+Imagine Postgres, but compiled to [WASM](https://webassembly.org/) and packaged as a simple TypeScript library. That's PGLite. You can run a genuine Postgres engine right inside your Node.js (or Bun, or even browser!) process *without installing Postgres or any other dependencies*.
 
 It's tiny (under 3MB gzipped!), incredibly fast to start, and supports many common Postgres extensions (like `pgvector`).
 
@@ -162,7 +162,7 @@ export async function pushSchema(client: PGlite) {
 * **Rapid Schema Evolution:** Change your Drizzle schema files, rerun tests, and the DB is updated instantly.
 * **No Migration File Clutter:** Keeps your project cleaner.
 * **Performance:** Applying one set of `CREATE` statements is faster than running potentially hundreds of historical migration files.
-* **Fantastic DX:** Forget `drizzle-kit generate` or `push` during development – just code!
+* **Fantastic DX:** Forget `drizzle-kit generate` or `push` during development, just code!
 
 **4. Update Your Tests:**
 
@@ -482,9 +482,9 @@ Time (mean ± σ):      1.940 s ±  0.022 s    [User: 5.570 s, System: 1.289 s]
 Range (min … max):    1.911 s …  1.987 s    10 runs
 ```
 
-**BOOM!** Look at that difference! From ~4.8s with Testcontainers down to ~1.3s with PGLite snapshotting. This is the kind of speed that keeps you in the TDD flow state.
+[**5 BIG BOOMS FOR THIS SPEED!**](https://www.youtube.com/watch?v=KEc8BQK-rbA) Look at that difference! From ~4.8s with Testcontainers down to ~1.3s with PGLite snapshotting. This is the kind of speed that keeps you in the TDD flow state.
 
-One big caveat is that these are still running sequentially, so with a lot of tests, it could add up and become even slower than the `testcontainers` version. I'll make a follow up post on how we could approach architecting our code to make sure it's testable. Since the current approach relies on mocking global accessors like`getDB`.
+One big caveat is that these are still running sequentially, so with a lot of tests, it could add up and become even slower than the `testcontainers` version. I'll make a follow up post on how we could approach architecting our code to make sure it's testable. Since the current approach relies on mocking global accessors like `getDB` which make it impossible to parallelize.
 
 ### Final Thoughts & Caveats
 
@@ -492,7 +492,7 @@ One big caveat is that these are still running sequentially, so with a lot of te
 2. **PGLite Fidelity:** While PGLite *is* running actual Postgres compiled to WASM, it's newer technology. Be mindful that there *could* be subtle differences or unsupported features compared to a native Postgres installation or a Docker image. I haven't hit any issues yet for typical web app CRUD operations, but always test thoroughly and be aware of the possibility. Don't let flaky tests give you false confidence.
 3. **Potentionally slower** for larger test suites. I am still not certain that this approach scales better than the `testcontainers` + snapshotting, since the bottleneck in that case is the startup time of the container, while subsequent tests run quite quickly. Not sure if the `fs` operations and the spinning up of `PGlite` instances will actually prove to be a bigger bottleneck than the initial startup time of `testcontainers`. That is something left to be tested. Please do let me know if you try it
 
-This PGLite + Drizzle + Vitest combination, especially with the snapshotting(-ish) technique, has significantly improved my Node.js TDD experience. It brings back that snappy, responsive feeling I loved from Go (with `PGlite` it's even better than go I'd argue), making test-driven development truly enjoyable and productive.
+This PGLite + Drizzle + Vitest combination, especially with the snapshotting(-ish) technique, has significantly improved my Node.js TDD experience. It brings back that snappy, responsive feeling I loved from Go (with `PGlite` it's even better than Go), making test-driven development truly enjoyable and productive.
 
 ---
 

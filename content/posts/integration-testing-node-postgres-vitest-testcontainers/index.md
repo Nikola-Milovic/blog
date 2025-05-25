@@ -38,7 +38,7 @@ Because it's _not the same_. You might use database-specific features, syntax qu
 
 ## Let's Build It: A Simple CRUD Example
 
-We'll set up a dead-simple Express app with basic CRUD operations for "items" stored in a Postgres database. Then, we'll write integration tests for it using Vitest and Testcontainers.
+We'll set up a dead simple Express app with basic CRUD operations for "items" stored in a Postgres database. Then, we'll write integration tests for it using Vitest and Testcontainers.
 
 **(You can find the [complete project code over at github](https://github.com/Nikola-Milovic/blog-projects/tree/master/integration-testing-node-vitest-testcontainers))**
 
